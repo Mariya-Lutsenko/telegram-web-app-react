@@ -8,6 +8,7 @@ import "./App.css";
 
 function App() {
   const { onToggleButton, tg } = useTelegram();
+
   useEffect(() => {
     tg.ready();
   }, []);
