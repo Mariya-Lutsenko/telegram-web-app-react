@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Form.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTelegram } from "../../hooks/useTelegram";
 
 const Form = () => {
@@ -9,6 +9,22 @@ const Form = () => {
   const [individual, setIndividual] = useState("children");
   const { tg } = useTelegram();
 
+  const onSendData = useCallback(() => {
+    const data = {
+      surname,
+      name,
+      individual,
+    };
+    tg.sendData(JSON.stringify(data));
+  }, []);
+
+  useEffect(() => {
+    tg.onEvent("mainButtonClicked", onSendData);
+    return () => {
+      tg.offEvent("mainButtonClicked", onSendData);
+    };
+  }, []);
+
   useEffect(() => {
     tg.MainButton.setParams({
       text: "Надіслати дані",
@@ -16,7 +32,7 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if(!surname || !name) {
+    if (!surname || !name) {
       tg.MainButton.hide();
     } else {
       tg.MainButton.show();
