@@ -7,6 +7,7 @@ const Form = () => {
   const [surname, setSurname] = useState("");
   const [name, setName] = useState("");
   const [individual, setIndividual] = useState("children");
+  const [message, setMessage] = useState("");
   const { tg } = useTelegram();
 
   const onSendData = useCallback(() => {
@@ -14,9 +15,10 @@ const Form = () => {
       surname,
       name,
       individual,
+      message
     };
     tg.sendData(JSON.stringify(data));
-  }, [surname, name, individual]);
+  }, [surname, name, individual, message]);
 
   useEffect(() => {
     tg.onEvent("mainButtonClicked", onSendData);
@@ -32,12 +34,12 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (!surname || !name) {
+    if (!surname || !name || !message) {
       tg.MainButton.hide();
     } else {
       tg.MainButton.show();
     }
-  }, [surname, name]);
+  }, [surname, name, message]);
 
   const onChangeSurname = (event) => {
     setSurname(event.target.value);
@@ -49,6 +51,10 @@ const Form = () => {
 
   const onChangeIndividual = (event) => {
     setIndividual(event.target.value);
+  };
+
+  const onChangeMessage = (event) => {
+    setMessage(event.target.value);
   };
 
   return (
@@ -77,6 +83,10 @@ const Form = () => {
         <option value={"teacher"}>Вчитель</option>
         <option value={"parents"}>Батьки</option>
       </select>
+  
+      <textarea className={styles.textarea} value={message} onChange={onChangeMessage}   placeholder={"Введіть повідомлення"}  name="message" rows="8"></textarea>
+    
+
     </div>
   );
 };
