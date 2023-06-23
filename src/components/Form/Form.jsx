@@ -7,17 +7,21 @@ const Form = () => {
   const [surname, setSurname] = useState("");
   const [name, setName] = useState("");
   const [individual, setIndividual] = useState("children");
-  const {tg} = useTelegram();
+  const { tg } = useTelegram();
 
-  useEffect(()=> {
-tg.MainButton.setParams({
-  text: 'Надіслати дані'
-})
-  }, [])
+  useEffect(() => {
+    tg.MainButton.setParams({
+      text: "Надіслати дані",
+    });
+  }, []);
 
-  useEffect(()=> {
-    
-  })
+  useEffect(() => {
+    if(!surname || !name) {
+      tg.MainButton.hide();
+    } else {
+      tg.MainButton.show();
+    }
+  }, [surname, name]);
 
   const onChangeSurname = (event) => {
     setSurname(event.target.value);
