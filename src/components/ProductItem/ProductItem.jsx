@@ -13,7 +13,7 @@ const ProductItem = ({ product, onAdd }) => {
       <div className={styles.description}>{product.description}</div>
       <div className={styles.price}>
         <span>
-          Вартість: <b>{product.price}</b>
+          Вартість: <b>{product.price} грн</b>
         </span>
       </div>
       <Button className={styles.addBtn} onClick={onAddHandler}>

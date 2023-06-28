@@ -6,19 +6,21 @@ import { useTelegram } from "../../hooks/useTelegram";
 const Form = () => {
   const [surname, setSurname] = useState("");
   const [name, setName] = useState("");
-  const [individual, setIndividual] = useState("children");
+  const [individual, setIndividual] = useState("physical");
   const [message, setMessage] = useState("");
+  const [tel, setTel]=useState("");
   const { tg } = useTelegram();
 
   const onSendData = useCallback(() => {
     const data = {
       surname,
       name,
+      tel,
       individual,
       message
     };
     tg.sendData(JSON.stringify(data));
-  }, [surname, name, individual, message]);
+  }, [surname, name, tel, individual, message]);
 
   useEffect(() => {
     tg.onEvent("mainButtonClicked", onSendData);
@@ -34,12 +36,12 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (!surname || !name || !message) {
+    if (!surname || !name || !tel) {
       tg.MainButton.hide();
     } else {
       tg.MainButton.show();
     }
-  }, [surname, name, message]);
+  }, [surname, name, tel]);
 
   const onChangeSurname = (event) => {
     setSurname(event.target.value);
@@ -47,6 +49,10 @@ const Form = () => {
 
   const onChangeName = (event) => {
     setName(event.target.value);
+  };
+
+  const onChangeTel = (event) => {
+    setTel(event.target.value);
   };
 
   const onChangeIndividual = (event) => {
@@ -74,14 +80,20 @@ const Form = () => {
         value={name}
         onChange={onChangeName}
       />
+        <input
+        className={styles.input}
+        type="tel"
+        placeholder={"+380000000"}
+        value={name}
+        onChange={onChangeTel}
+      />
       <select
         value={individual}
         onChange={onChangeIndividual}
         className={styles.select}
       >
-        <option value={"children"}>Учень</option>
-        <option value={"teacher"}>Вчитель</option>
-        <option value={"parents"}>Батьки</option>
+        <option value={"physical"}>Фізична особа</option>
+        <option value={"legal"}>Юридична особа</option>
       </select>
   
       <textarea className={styles.textarea} value={message} onChange={onChangeMessage}   placeholder={"Введіть повідомлення"}  name="message" rows="8"></textarea>
