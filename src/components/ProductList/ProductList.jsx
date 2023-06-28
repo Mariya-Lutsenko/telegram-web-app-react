@@ -31,7 +31,7 @@ const ProductList = () => {
       totalPrice: getTotalPrice(addedItems),
       queryId,
     };
-    fetch('https://telegram-web-app-node.onrender.com', {
+    fetch('https://telegram-web-app-node.onrender.com/web-data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
