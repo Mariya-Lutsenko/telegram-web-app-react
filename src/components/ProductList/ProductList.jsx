@@ -5,21 +5,69 @@ import { useState, useCallback, useEffect } from "react";
 import { useTelegram } from "../../hooks/useTelegram";
 
 const products = [
-  {id: '1', title: 'Джинси', price: 1000, description: 'Синього кольору, прямі'},
-  {id: '2', title: 'Куртка', price: 3500, description: 'Зеленого кольору, демісезонна'},
-  {id: '3', title: 'Сукня', price: 1300, description: 'Червоного кольору'},
-  {id: '4', title: 'Рубашка', price: 800, description: 'Зеленого кольору, у клітинку'},
-  {id: '5', title: 'Спідниця', price: 1200, description: 'Синього кольору, пряма'},
-  {id: '6', title: 'Брюки', price: 600, description: 'Чорного кольору'},
-  {id: '7', title: 'Світшот', price: 1900, description: 'Персикового кольору, із зображенням '},
-  {id: '8', title: 'Футболка', price: 400, description: 'Зеленого кольору, патріотична'},
+  {
+    id: "1",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Джинси",
+    price: 1000,
+    description: "Синього кольору, прямі",
+  },
+  {
+    id: "2",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Куртка",
+    price: 3500,
+    description: "Зеленого кольору, демісезонна",
+  },
+  {
+    id: "3",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Сукня",
+    price: 1300,
+    description: "Червоного кольору",
+  },
+  {
+    id: "4",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Рубашка",
+    price: 800,
+    description: "Зеленого кольору, у клітинку",
+  },
+  {
+    id: "5",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Спідниця",
+    price: 1200,
+    description: "Синього кольору, пряма",
+  },
+  {
+    id: "6",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Брюки",
+    price: 600,
+    description: "Чорного кольору",
+  },
+  {
+    id: "7",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Світшот",
+    price: 1900,
+    description: "Персикового кольору, із зображенням ",
+  },
+  {
+    id: "8",
+    imgUrl: "https://content2.rozetka.com.ua/goods/images/big/310731329.jpg",
+    title: "Футболка",
+    price: 400,
+    description: "Зеленого кольору, патріотична",
+  },
 ];
 
 const getTotalPrice = (items = []) => {
   return items.reduce((acc, item) => {
-      return acc += item.price
-  }, 0)
-}
+    return (acc += item.price);
+  }, 0);
+};
 
 const ProductList = () => {
   const [addedItems, setAddedItems] = useState([]);
@@ -31,13 +79,13 @@ const ProductList = () => {
       totalPrice: getTotalPrice(addedItems),
       queryId,
     };
-    fetch('https://telegram-web-app-node.onrender.com/web-data', {
-      method: 'POST',
+    fetch("https://telegram-web-app-node.onrender.com/web-data", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    })
+      body: JSON.stringify(data),
+    });
     tg.sendData(JSON.stringify(data));
   }, [addedItems]);
 
@@ -47,8 +95,6 @@ const ProductList = () => {
       tg.offEvent("mainButtonClicked", onSendData);
     };
   }, [onSendData]);
-
-
 
   const onAdd = (product) => {
     const alreadyAdded = addedItems.find((item) => item.id === product.id);
@@ -66,8 +112,8 @@ const ProductList = () => {
     } else {
       tg.MainButton.show();
       tg.MainButton.setParams({
-        text: `Купити ${getTotalPrice(newItems)} грн`
-    })
+        text: `Купити ${getTotalPrice(newItems)} грн`,
+      });
     }
   };
 
